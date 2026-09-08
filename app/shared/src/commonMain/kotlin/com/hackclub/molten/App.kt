@@ -23,6 +23,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.hackclub.molten.theming.WavyShape
 import com.hackclub.molten.ui.HomePage
+import com.hackclub.molten.ui.NavigationButton
 
 
 @Composable
@@ -50,41 +51,15 @@ fun App() {
                         disabledContentColor = Color(0xFFFFFBFF)
                     )
                 ) {
-                    val buttonHeight = 50.dp
-                    val buttonPadding = 15.dp
-                    val buttonTextStyle = MaterialTheme.typography.headlineSmallEmphasized
+
                     Row {
-                        Button(
-                            onClick = { showContent = !showContent },
-                            shape = WavyShape(),
-                            modifier = Modifier.padding(buttonPadding).weight(1f).height(buttonHeight)
-                        ) {
-                            Text("Home", style = buttonTextStyle)
-                        }
+                        NavigationButton("Home", {showContent = !showContent}, Modifier.weight(1f))
 
-                        Button(
-                            onClick = { showContent = !showContent },
-                            shape = WavyShape(),
-                            modifier = Modifier.padding(buttonPadding).weight(1f).requiredHeight(buttonHeight)
-                        ) {
-                            Text("Projects", style = buttonTextStyle)
-                        }
+                        NavigationButton("Projects", {showContent = !showContent}, Modifier.weight(1f))
 
-                        Button(
-                            onClick = { showContent = !showContent },
-                            shape = WavyShape(),
-                            modifier = Modifier.padding(buttonPadding).weight(1f).requiredHeight(buttonHeight)
-                        ) {
-                            Text("Shop", style = buttonTextStyle)
-                        }
+                        NavigationButton("Shop", {showContent = !showContent}, Modifier.weight(1f))
 
-                        Button(
-                            onClick = { showContent = !showContent },
-                            shape = WavyShape(),
-                            modifier = Modifier.padding(buttonPadding).weight(1f).requiredHeight(buttonHeight)
-                        ) {
-                            Text("Event", style = buttonTextStyle)
-                        }
+                        NavigationButton("Event", {showContent = !showContent}, Modifier.weight(1f))
                     }
                 }
 
