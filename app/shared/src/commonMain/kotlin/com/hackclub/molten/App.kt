@@ -59,6 +59,11 @@ class EventScreenObject : ScreenObject()
 @Preview
 fun App(onNavHostReady: suspend (NavController) -> Unit = {}) {
     val navController = rememberNavController()
+
+    LaunchedEffect(navController) {
+        onNavHostReady(navController)
+    }
+
     MoltenTheme(true) {
         Scaffold(modifier = Modifier.fillMaxSize(), containerColor = MaterialTheme.colorScheme.background) {
             Column(
