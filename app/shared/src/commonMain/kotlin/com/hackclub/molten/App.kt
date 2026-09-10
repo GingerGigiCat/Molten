@@ -21,17 +21,46 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.rememberNavController
 import com.hackclub.molten.theming.WavyShape
 import com.hackclub.molten.ui.HomePage
 import com.hackclub.molten.ui.NavigationButton
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
+import kotlin.reflect.KClass
 
+// Any parameters in ScreenObjects must be initialiesd or else it gets sad
+@Serializable
+open class ScreenObject
+
+@Serializable
+@SerialName("home")
+class HomeScreenObject() : ScreenObject() {
+}
+
+@Serializable
+@SerialName("projects")
+data class ProjectsScreenObject(
+    val projectId: String? = null
+) : ScreenObject()
+
+@Serializable
+@SerialName("shop")
+class ShopScreenObject : ScreenObject()
+
+@Serializable
+@SerialName("event")
+class EventScreenObject : ScreenObject()
 
 @Composable
 @Preview
-fun App() {
+fun App(onNavHostReady: suspend (NavController) -> Unit = {}) {
+    val navController = rememberNavController()
     MoltenTheme(true) {
         Scaffold(modifier = Modifier.fillMaxSize(), containerColor = MaterialTheme.colorScheme.background) {
-            var showContent by remember { mutableStateOf(false) }
             Column(
                 modifier = Modifier
                     .background(MaterialTheme.colorScheme.background)
@@ -53,21 +82,39 @@ fun App() {
                 ) {
 
                     Row {
-                        NavigationButton("Home", {showContent = !showContent}, Modifier.weight(1f))
+                        NavigationButton("Home", {navController.navigate(HomeScreenObject())}, Modifier.weight(1f))
 
-                        NavigationButton("Projects", {showContent = !showContent}, Modifier.weight(1f))
+                        NavigationButton("Projects", {navController.navigate(ProjectsScreenObject())}, Modifier.weight(1f))
 
-                        NavigationButton("Shop", {showContent = !showContent}, Modifier.weight(1f))
+                        NavigationButton("Shop", {navController.navigate(ShopScreenObject())}, Modifier.weight(1f))
 
-                        NavigationButton("Event", {showContent = !showContent}, Modifier.weight(1f))
+                        NavigationButton("Event", {navController.navigate(EventScreenObject())}, Modifier.weight(1f))
                     }
                 }
 
                 // Main Content
-                if (showContent) {
-                    HomePage()
-                }
 
+                NavHost(
+                    navController = navController,
+                    startDestination = HomeScreenObject(),
+                    modifier = Modifier.fillMaxSize()
+                ) {
+                    composable<HomeScreenObject> {
+                        HomePage()
+                    }
+                    composable<ProjectsScreenObject> {
+                        // Future
+                        Text("Projects", modifier = Modifier.padding(15.dp))
+                    }
+                    composable<ShopScreenObject> {
+                        Text("Shop", modifier = Modifier.padding(15.dp))
+                        // Future
+                    }
+                    composable<EventScreenObject> {
+                        Text("Event", modifier = Modifier.padding(15.dp))
+                        // Future
+                    }
+                }
             }
         }
     }
