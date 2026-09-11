@@ -23,9 +23,21 @@ Use the run configurations provided by the run widget in your IDE's toolbar. You
   - Hot reload: `./gradlew :app:desktopApp:hotRun --auto`
   - Standard run: `./gradlew :app:desktopApp:run`
 - Server: `./gradlew :server:run`
-- Web app:
+- Web app (http://localhost:8082, so it does not clash with Ktor on 8080):
   - Wasm target (faster, modern browsers): `./gradlew :app:webApp:wasmJsBrowserDevelopmentRun`
   - JS target (slower, supports older browsers): `./gradlew :app:webApp:jsBrowserDevelopmentRun`
+
+### Hack Club Auth
+
+Copy [`.env.example`](./.env.example) to `.env` at the repo root and fill in your client id/secret. `.env` is gitignored. Then:
+
+```bash
+cp .env.example .env
+./gradlew :server:run
+./gradlew :app:webApp:wasmJsBrowserDevelopmentRun
+```
+
+Redirect URI on the Hack Club app: `http://localhost:8080/auth/callback`.
 
 ### Running tests
 
