@@ -16,22 +16,53 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.rememberNavController
 import com.hackclub.molten.auth.AuthState
 import com.hackclub.molten.theming.WavyShape
 import com.hackclub.molten.ui.HomePage
 import com.hackclub.molten.ui.NavigationButton
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
+
+@Serializable
+open class ScreenObject
+
+@Serializable
+@SerialName("home")
+class HomeScreenObject() : ScreenObject()
+
+@Serializable
+@SerialName("projects")
+data class ProjectsScreenObject(
+    val projectId: String? = null
+) : ScreenObject()
+
+@Serializable
+@SerialName("shop")
+class ShopScreenObject : ScreenObject()
+
+@Serializable
+@SerialName("event")
+class EventScreenObject : ScreenObject()
 
 @Composable
 @Preview
-fun App() {
+fun App(onNavHostReady: suspend (NavController) -> Unit = {}) {
+    val navController = rememberNavController()
+
+    LaunchedEffect(navController) {
+        onNavHostReady(navController)
+    }
+
     MoltenTheme(true) {
         val auth = remember { AuthState() }
         val user by auth.user.collectAsState()
@@ -42,7 +73,6 @@ fun App() {
         }
 
         Scaffold(modifier = Modifier.fillMaxSize(), containerColor = MaterialTheme.colorScheme.background) {
-            var showContent by remember { mutableStateOf(false) }
             Column(
                 modifier = Modifier
                     .background(MaterialTheme.colorScheme.background)
@@ -64,13 +94,13 @@ fun App() {
                 ) {
 
                     Row(verticalAlignment = Alignment.CenterVertically) {
-                        NavigationButton("Home", {showContent = !showContent}, Modifier.weight(1f))
+                        NavigationButton("Home", { navController.navigate(HomeScreenObject()) }, Modifier.weight(1f))
 
-                        NavigationButton("Projects", {showContent = !showContent}, Modifier.weight(1f))
+                        NavigationButton("Projects", { navController.navigate(ProjectsScreenObject()) }, Modifier.weight(1f))
 
-                        NavigationButton("Shop", {showContent = !showContent}, Modifier.weight(1f))
+                        NavigationButton("Shop", { navController.navigate(ShopScreenObject()) }, Modifier.weight(1f))
 
-                        NavigationButton("Event", {showContent = !showContent}, Modifier.weight(1f))
+                        NavigationButton("Event", { navController.navigate(EventScreenObject()) }, Modifier.weight(1f))
 
                         if (user == null) {
                             NavigationButton("Sign in", { auth.signIn() }, Modifier.weight(1f))
@@ -96,10 +126,24 @@ fun App() {
                 }
 
                 // Main Content
-                if (showContent) {
-                    HomePage()
+                NavHost(
+                    navController = navController,
+                    startDestination = HomeScreenObject(),
+                    modifier = Modifier.fillMaxSize()
+                ) {
+                    composable<HomeScreenObject> {
+                        HomePage()
+                    }
+                    composable<ProjectsScreenObject> {
+                        Text("Projects", modifier = Modifier.padding(15.dp))
+                    }
+                    composable<ShopScreenObject> {
+                        Text("Shop", modifier = Modifier.padding(15.dp))
+                    }
+                    composable<EventScreenObject> {
+                        Text("Event", modifier = Modifier.padding(15.dp))
+                    }
                 }
-
             }
         }
     }

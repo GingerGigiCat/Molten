@@ -1,6 +1,6 @@
 [versions]
 androidx-lifecycle = "2.11.0-beta01"
-composeMultiplatform = "1.11.1"
+composeMultiplatform = "1.12.0"
 java-jwt = "4.5.0"
 junit = "4.13.2"
 kotlin = "2.4.10"
@@ -11,6 +11,7 @@ ktor = "3.5.2"
 logback = "1.6.3"
 dotenv = "6.5.1"
 material3 = "1.11.0-alpha07"
+navigation-compose = "2.10.0-alpha02"
 
 [libraries]
 kotlin-test = { module = "org.jetbrains.kotlin:kotlin-test", version.ref = "kotlin" }
@@ -29,6 +30,7 @@ kotlinx-serialization-json = { module = "org.jetbrains.kotlinx:kotlinx-serializa
 logback = { module = "ch.qos.logback:logback-classic", version.ref = "logback" }
 dotenv-kotlin = { module = "io.github.cdimascio:dotenv-kotlin", version.ref = "dotenv" }
 java-jwt = { module = "com.auth0:java-jwt", version.ref = "java-jwt" }
+navigation-compose = { module = "org.jetbrains.androidx.navigation:navigation-compose", version.ref = "navigation-compose" }
 ktor-serverCore = { module = "io.ktor:ktor-server-core-jvm", version.ref = "ktor" }
 ktor-serverNetty = { module = "io.ktor:ktor-server-netty-jvm", version.ref = "ktor" }
 ktor-serverAuth = { module = "io.ktor:ktor-server-auth-jvm", version.ref = "ktor" }
