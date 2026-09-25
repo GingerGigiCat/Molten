@@ -11,6 +11,8 @@ import kotlin.math.cos
 import kotlin.math.max
 import kotlin.math.sin
 
+
+// Claude wrote this btw
 class WavyShape(
     private val amplitude: Float = 4f,     // wave height in px
     private val wavelength: Float = 120f,  // wave length in px

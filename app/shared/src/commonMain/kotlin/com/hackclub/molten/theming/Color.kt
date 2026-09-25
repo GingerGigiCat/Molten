@@ -1,5 +1,14 @@
 package com.hackclub.molten.theming
+import androidx.compose.material3.CardColors
 import androidx.compose.ui.graphics.Color
+
+val accentCardColors = CardColors(
+    containerColor = Color(0xFFFC4C02),
+    contentColor = Color(0xFFFFFBFF),
+    disabledContainerColor = Color(0xFFFC4C02),
+    disabledContentColor = Color(0xFFFFFBFF)
+)
+
 
 val primaryLight = Color(0xFFAA3000)
 val onPrimaryLight = Color(0xFFFFFFFF)

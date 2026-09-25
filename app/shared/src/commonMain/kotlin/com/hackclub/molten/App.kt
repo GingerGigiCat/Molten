@@ -28,6 +28,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.hackclub.molten.auth.AuthState
 import com.hackclub.molten.theming.WavyShape
+import com.hackclub.molten.theming.accentCardColors
 import com.hackclub.molten.ui.HomePage
 import com.hackclub.molten.ui.NavigationButton
 import kotlinx.serialization.SerialName
@@ -85,12 +86,7 @@ fun App(onNavHostReady: suspend (NavController) -> Unit = {}) {
                 Card(
                     shape = WavyShape(),
                     modifier = Modifier.fillMaxWidth().padding(15.dp),
-                    colors = CardColors(
-                        containerColor = Color(0xFFFC4C02),
-                        contentColor = Color(0xFFFFFBFF),
-                        disabledContainerColor = Color(0xFFFC4C02),
-                        disabledContentColor = Color(0xFFFFFBFF)
-                    )
+                    colors = accentCardColors
                 ) {
 
                     Row(verticalAlignment = Alignment.CenterVertically) {
