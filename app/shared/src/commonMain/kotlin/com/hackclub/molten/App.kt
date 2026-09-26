@@ -31,6 +31,7 @@ import com.hackclub.molten.theming.WavyShape
 import com.hackclub.molten.theming.accentCardColors
 import com.hackclub.molten.ui.HomePage
 import com.hackclub.molten.ui.NavigationButton
+import com.hackclub.molten.ui.ProjectsPage
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
@@ -131,7 +132,7 @@ fun App(onNavHostReady: suspend (NavController) -> Unit = {}) {
                         HomePage()
                     }
                     composable<ProjectsScreenObject> {
-                        Text("Projects", modifier = Modifier.padding(15.dp))
+                        ProjectsPage()
                     }
                     composable<ShopScreenObject> {
                         Text("Shop", modifier = Modifier.padding(15.dp))

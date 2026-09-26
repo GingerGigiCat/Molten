@@ -16,7 +16,11 @@ kotlin {
     
     @OptIn(ExperimentalWasmDsl::class)
     wasmJs {
-        browser()
+        browser {
+            commonWebpackConfig {
+                sourceMaps = true
+            }
+        }
     }
     
     
@@ -36,6 +40,7 @@ kotlin {
             implementation(libs.ktor.clientContentNegotiation)
             implementation(libs.ktor.serializationKotlinxJson)
             implementation(libs.kotlinx.serialization.json)
+            implementation("media.kamel:kamel-image-default:1.0.9")
         }
         commonTest.dependencies {
             implementation(libs.kotlin.test)

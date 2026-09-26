@@ -1,7 +1,6 @@
 package com.hackclub.molten.ui
 
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.Row
@@ -26,6 +25,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.hackclub.molten.theming.WavyShape
 import com.hackclub.molten.theming.accentCardColors
+import com.hackclub.molten.theming.getContentCardColors
 import moltenplatform.app.shared.generated.resources.Res
 import moltenplatform.app.shared.generated.resources.molten_progress_volcano
 import org.jetbrains.compose.resources.painterResource
@@ -33,20 +33,15 @@ import org.jetbrains.compose.resources.painterResource
 @Composable
 @Preview
 fun HomePage() {
-    val cardColors = CardColors(
-        containerColor = MaterialTheme.colorScheme.surfaceContainerHigh,
-        contentColor = MaterialTheme.colorScheme.onSurface,
-        disabledContainerColor = MaterialTheme.colorScheme.surfaceContainerHigh,
-        disabledContentColor = MaterialTheme.colorScheme.onSurface
-    )
+    val contentCardColors = getContentCardColors(MaterialTheme.colorScheme)
     val completedTime by remember { mutableStateOf(23) }
     val totalTime = 55
 
     Row(Modifier.fillMaxSize()) {
         Column(Modifier.fillMaxHeight()) {
-            Card(Modifier.height(IntrinsicSize.Min).padding(15.dp).width(IntrinsicSize.Min), shape = WavyShape(), colors = cardColors) {
+            Card(Modifier.height(IntrinsicSize.Min).padding(15.dp).width(IntrinsicSize.Min), shape = WavyShape(), colors = contentCardColors) {
                 Column(Modifier.fillMaxSize()) {
-                    SelectionContainer {
+                    SelectionContainer(Modifier.fillMaxHeight()) {
                         Column(
                             horizontalAlignment = Alignment.CenterHorizontally,
                             modifier = Modifier.fillMaxWidth()
@@ -70,7 +65,7 @@ fun HomePage() {
             }
         }
         Column(Modifier.fillMaxHeight().weight(2 / 3f)) {
-            Card(Modifier.fillMaxSize().weight(1f).padding(15.dp), shape = WavyShape(), colors = cardColors) {
+            Card(Modifier.fillMaxSize().weight(1f).padding(15.dp), shape = WavyShape(), colors = contentCardColors) {
                 SelectionContainer {
                     Text(
                         "This is also a panel, perhaps some stats or things about other users could go here. a leaderboard?",
@@ -78,7 +73,7 @@ fun HomePage() {
                     )
                 }
             }
-            Card(Modifier.fillMaxSize().weight(1f).padding(15.dp), shape = WavyShape(), colors = cardColors) {
+            Card(Modifier.fillMaxSize().weight(1f).padding(15.dp), shape = WavyShape(), colors = contentCardColors) {
                 SelectionContainer {
                     Text(
                         "This is a different panel, maybe a small project list could go here",
