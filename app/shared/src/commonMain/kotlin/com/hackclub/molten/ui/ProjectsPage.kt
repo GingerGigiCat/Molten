@@ -1,8 +1,14 @@
 package com.hackclub.molten.ui
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.heightIn
+import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.requiredHeight
 import androidx.compose.foundation.lazy.grid.GridCells
@@ -10,10 +16,16 @@ import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.material3.Card
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.max
+import androidx.compose.ui.zIndex
 import com.hackclub.molten.ApprovalState
 import com.hackclub.molten.Project
 import com.hackclub.molten.Review
@@ -54,11 +66,39 @@ fun ProjectCard(project: Project? = null) {
             screenshotImgUrl = "https://cdn.hackclub.com/01a0b850-0f9c-7bfe-bb43-2d521796fa6e/screenshot_2026-09-19_at_11.41.45.png"
         )
     }
-    Card(Modifier.height(400.dp).padding(15.dp),
+
+    val contentCardColors = getContentCardColors(MaterialTheme.colorScheme)
+    Card(Modifier.height(400.dp).padding(15.dp).fillMaxWidth(),
         shape = WavyShape(),
-        colors = getContentCardColors(MaterialTheme.colorScheme)) {
+        colors = contentCardColors) {
         Column {
-            KamelImage({asyncPainterResource(project.headerImgUrl)}, contentDescription = "Header Image", modifier = Modifier.requiredHeight(200.dp))
+            Column(Modifier.height(200.dp), verticalArrangement = Arrangement.Center, horizontalAlignment = Alignment.CenterHorizontally) {
+                KamelImage(
+                    { asyncPainterResource(project.headerImgUrl) },
+                    contentDescription = "Header Image",
+                    modifier = Modifier.fillMaxWidth(),
+                    contentScale = ContentScale.Crop
+                )
+            }
+            Card(Modifier.weight(1f).fillMaxWidth().offset(0.dp, -10.dp).clip(WavyShape()).zIndex(10f), colors = contentCardColors) {
+                Column(Modifier.padding(top=15.dp, start=15.dp, end=15.dp, bottom=5.dp)) {
+                    Text(
+                        project.title,
+                        color = MaterialTheme.colorScheme.onSurface,
+                        style = MaterialTheme.typography.headlineMediumEmphasized,
+                        overflow = TextOverflow.Ellipsis,
+                        maxLines = 1,
+                        modifier = Modifier.padding(bottom = 5.dp)
+                    )
+                    Text(
+                        project.description,
+                        color = MaterialTheme.colorScheme.onSurface,
+                        style = MaterialTheme.typography.bodyLarge,
+                        overflow = TextOverflow.Ellipsis,
+                        modifier = Modifier.padding(top=5.dp).fillMaxHeight()
+                    )
+                }
+            }
         }
     }
 }
